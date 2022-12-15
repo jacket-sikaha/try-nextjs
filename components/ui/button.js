@@ -2,11 +2,19 @@ import Link from "next/link";
 import React from "react";
 import styles from "./button.module.css";
 
-function Button({ link, children }) {
+function Button({ link, children, onclick }) {
+  if (link) {
+    return (
+      <Link href={link}>
+        <div className={styles.btn}>{children}</div>
+      </Link>
+    );
+  }
+
   return (
-    <Link href={link}>
-      <div className={styles.btn}>{children}</div>
-    </Link>
+    <button className={styles.btn} onClick={onclick}>
+      {children}
+    </button>
   );
 }
 

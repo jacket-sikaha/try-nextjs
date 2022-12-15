@@ -1,7 +1,6 @@
 import React from "react";
 import EventItem from "./event-item";
 import styles from "./event-list.module.css";
-import "./event-item.module.css";
 function EventList(props) {
   const { items } = props;
   return (

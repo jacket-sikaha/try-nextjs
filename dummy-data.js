@@ -28,12 +28,32 @@ const init = () => {
 };
 const userList = init();
 
-console.log(userList);
-const getFeaturedEvents = () => {
+// console.log(userList);
+const getAllEvents = () => {
   return userList;
+};
+
+const getFeaturedEvents = () => {
+  // const a = userList.filter((val) => {
+  //   const asd = val.isFeature === true;
+  //   console.log(asd);
+  //   return asd;
+  // });
+  // console.log("userList", a);
+
+  return userList.filter((val) => val.isFeature);
 };
 
 const getEventById = (id) => {
   return userList.find((event) => event.id === id);
 };
-export { getFeaturedEvents, getEventById };
+
+export function getFilteredEvents(dateFilter) {
+  const { year, month } = dateFilter;
+  let filteredEvents = userList.filter((event) => {
+    const eventDate = new Date(event.date);
+    return eventDate.getFullYear() == year && eventDate.getMonth() == month;
+  });
+  return filteredEvents;
+}
+export { getAllEvents, getFeaturedEvents, getEventById };
