@@ -10,6 +10,7 @@ function AllEventPages() {
     const fullPath = `/events/${year}/${month}/abc`;
     router.push(fullPath);
   }
+  console.log(JSON.stringify(events));
   return (
     <div>
       <EventSearch onSearch={findEventsHandler} />
