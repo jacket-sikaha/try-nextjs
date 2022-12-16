@@ -8,7 +8,7 @@ export default function Home({ products }) {
         {products.map((product) => {
           return (
             <li key={product.id}>
-              <Link href={`/${product.id}`}>{product.title}</Link>
+              <Link href={`/products/${product.id}`}>{product.title}</Link>
             </li>
           );
         })}
@@ -29,6 +29,7 @@ export async function getStaticProps() {
 
   if (!data) {
     return {
+      // 重定向
       redirect: {
         destination: "/no-data",
       },
