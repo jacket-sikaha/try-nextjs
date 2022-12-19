@@ -10,11 +10,10 @@ export default function Home({ featuredEvents }) {
 
 export async function getStaticProps() {
   const featuredEvents = await getFeaturedEvents();
-  console.log(featuredEvents);
   return {
     props: {
       featuredEvents,
     },
-    revalidate: 10,
+    revalidate: 1800, // 每半小时重新生成该页面
   };
 }

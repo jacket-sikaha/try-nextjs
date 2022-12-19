@@ -11,7 +11,7 @@ function MainHeader() {
       <nav className={styles.navigation}>
         <ul>
           <li>
-            <Link href={"/events"}>browse all enents</Link>
+            <Link href={"/events"}>browse all events</Link>
           </li>
         </ul>
       </nav>

@@ -1,8 +1,8 @@
 import React from "react";
-import { getAllEvents } from "../../dummy-data";
+import { getAllEvents } from "../../helpers/api-util";
 import Button from "../ui/button";
 import styles from "./event-search.module.css";
-function EventSearch(props) {
+function EventSearch({ events, onSearch }) {
   const month = new Array(12);
   month[0] = "January";
   month[1] = "February";
@@ -16,17 +16,14 @@ function EventSearch(props) {
   month[9] = "October";
   month[10] = "November";
   month[11] = "December";
-  const events = getAllEvents();
 
   function submitHandler(event) {
     event.preventDefault();
     const [selectedYear, selectedMonth] = event.target;
     // const selectedYear = yearInputRef.current.value;
     // const selectedMonth = monthInputRef.current. value;
-    console.log(selectedYear.value, selectedMonth.value);
-    props.onSearch(selectedYear.value, selectedMonth.value);
+    onSearch(selectedYear.value, selectedMonth.value);
   }
-
   return (
     <form className={styles.form} onSubmit={submitHandler}>
       <div className={styles.controls}>
@@ -60,3 +57,15 @@ function EventSearch(props) {
 }
 
 export default EventSearch;
+
+// 只有page里的路由组件才会调用 其余无效
+export async function getStaticProps(context) {
+  const events = await getAllEvents();
+  console.log(222222222);
+  return {
+    props: {
+      events,
+    },
+    revalidate: 60, // 每60s有新的请求进来重新生成该页面
+  };
+}
