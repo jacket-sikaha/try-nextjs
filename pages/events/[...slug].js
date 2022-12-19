@@ -4,6 +4,7 @@ import EventDetailItem from "../../components/event-detail/EventDetailItem";
 import { getFilteredEvents } from "../../helpers/api-util";
 import Button from "../../components/ui/button";
 import useSWR from "swr";
+import Head from "next/head";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 function FilteredEventsPage({ hasError, events, date }) {
@@ -72,21 +73,26 @@ function FilteredEventsPage({ hasError, events, date }) {
   //   );
   // }
   // return (
-  //   <div
-  //     style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-  //   >
-  //     <h1>
-  //       FilteredEventsPage,这是一个以/xx/aa 。。。的方式传递多个参数的路由,
-  //     </h1>
-  //     <h2 style={{ textAlign: "center" }}>
-  //       Events in {new Date(year, month).toDateString().split(" ", 2).slice(-1)}{" "}
-  //       {year}
-  //     </h2>
-  //     {filteredEvents.map((val) => {
-  //       return <EventDetailItem key={val.id} {...val} />;
-  //     })}
-  //     <Button link={"/events"}>show all events</Button>
-  //   </div>
+  // <div
+  //   style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+  // >
+  //   <Head>
+  //     {/* 修改tab页面头部标题信息 */}
+  //     <title>Filtered Events</title>
+  //     {/* 当你的页面出现在搜索引擎结果中时，content显示搜索结果中的文本 */}
+  //     <meta name="description" content={`All events for ${${year + "/" + month}.`} />
+  //   </Head>
+  //   ;
+  //   <h1>FilteredEventsPage,这是一个以/xx/aa 。。。的方式传递多个参数的路由,</h1>
+  //   <h2 style={{ textAlign: "center" }}>
+  //     Events in {new Date(year, month).toDateString().split(" ", 2).slice(-1)}{" "}
+  //     {year}
+  //   </h2>
+  //   {filteredEvents.map((val) => {
+  //     return <EventDetailItem key={val.id} {...val} />;
+  //   })}
+  //   <Button link={"/events"}>show all events</Button>
+  // </div>;
   // );
 
   // 服务端预渲染 与客户端请求渲染 两者二选一
@@ -118,6 +124,15 @@ function FilteredEventsPage({ hasError, events, date }) {
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
+      <Head>
+        {/* 修改tab页面头部标题信息 */}
+        <title>Filtered Events</title>
+        {/* 当你的页面出现在搜索引擎结果中时，content显示搜索结果中的文本 */}
+        <meta
+          name="description"
+          content={`All events for ${year + "/" + month}.`}
+        />
+      </Head>
       <h1>
         FilteredEventsPage,这是一个以/xx/aa 。。。的方式传递多个参数的路由,
       </h1>

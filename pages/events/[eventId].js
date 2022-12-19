@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { Fragment } from "react";
 import EventDetailItem from "../../components/event-detail/EventDetailItem";
@@ -10,6 +11,12 @@ function EventDetailPages({ event }) {
   }
   return (
     <Fragment>
+      <Head>
+        {/* 修改tab页面头部标题信息 */}
+        <title>{event.title}</title>
+        {/* 当你的页面出现在搜索引擎结果中时，content显示搜索结果中的文本 */}
+        <meta name="description" content={event.description} />
+      </Head>
       <h1>EventDetailPages,这个路由只匹配/events后一个参数的路由</h1>
       <EventDetailItem {...event} />
     </Fragment>
