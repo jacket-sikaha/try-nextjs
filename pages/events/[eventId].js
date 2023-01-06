@@ -4,6 +4,7 @@ import { Fragment } from "react";
 import EventDetailItem from "../../components/event-detail/EventDetailItem";
 import { getFeaturedEvents } from "../../dummy-data";
 import { getAllEvents, getEventById } from "../../helpers/api-util";
+import Comments from "../../components/input/comments";
 function EventDetailPages({ event }) {
   console.log(event);
   if (!event) {
@@ -19,6 +20,7 @@ function EventDetailPages({ event }) {
       </Head>
       <h1>EventDetailPages,这个路由只匹配/events后一个参数的路由</h1>
       <EventDetailItem {...event} />
+      <Comments eventId={event.id} />
     </Fragment>
   );
 }
