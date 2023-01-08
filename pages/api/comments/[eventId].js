@@ -3,6 +3,8 @@
 import { addComments, findAllComments } from "../../../sql/db-util";
 
 export default async function handler(req, res) {
+  // 获取请求url上的对应参数
+  // /api/comments/[eventId] 同理也是支持获取多个参数
   const eventId = req.query.eventId;
 
   if (req.method === "POST") {
