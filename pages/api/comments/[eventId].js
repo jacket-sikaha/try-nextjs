@@ -1,6 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-export default function handler(req, res) {
+import { addComments, findAllComments } from "../../../sql/db-util";
+
+export default async function handler(req, res) {
   const eventId = req.query.eventId;
 
   if (req.method === "POST") {
@@ -16,19 +18,32 @@ export default function handler(req, res) {
       return;
     }
     const newComment = {
-      id: new Date().toISOString(),
       email,
       name,
       text,
+      eventId,
     };
-    console.log(newComment);
-    res.status(201).json({ message: "Added comment.", comment: newComment });
+
+    try {
+      const result = await addComments(newComment);
+      newComment.id = result.insertedId;
+      res.status(201).json({ message: "Added comment.", comment: newComment });
+    } catch (error) {
+      res.status(500).json({ message: "database error! ", error: error.name });
+    }
   }
   if (req.method === "GET") {
-    const dummyList = [
-      { id: "c1", name: "Max", text: "A first comment!" },
-      { id: "c2", name: "Manuel", text: "A second comment !" },
-    ];
-    res.status(200).json({ comments: dummyList });
+    // const dummyList = [
+    //   { id: "c1", name: "Max", text: "A first comment!" },
+    //   { id: "c2", name: "Manuel", text: "A second comment !" },
+    // ];
+    try {
+      const result = await findAllComments();
+      res.status(201).json({ comments: result });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "database error! ", error: error.name, comments: [] });
+    }
   }
 }
