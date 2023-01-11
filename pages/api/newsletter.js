@@ -17,7 +17,8 @@ export default async function handler(req, res) {
       await registerEmail(userEmail);
       res.status(201).json({ message: "Signed up! " });
     } catch (error) {
-      res.status(500).json({ message: "database error! ", error: error.name });
+      console.log(error.name);
+      res.status(500).json({ message: error.name, error: error.message });
     }
   }
 }

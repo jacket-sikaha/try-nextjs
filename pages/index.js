@@ -2,7 +2,7 @@ import Head from "next/head"; // 修改部分原head标签里的信息
 import EventList from "../components/events/event-list";
 import { getFeaturedEvents } from "../helpers/api-util";
 import NewsletterRegistration from "../components/input/newsletter-registration";
-
+// 初始主页面
 export default function Home({ featuredEvents }) {
   return (
     <div>

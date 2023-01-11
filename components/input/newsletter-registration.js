@@ -1,11 +1,22 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
+import NotificationContext from "../../store/notification-context";
 import classes from "./newsletter-registration.module.css";
 
 function NewsletterRegistration() {
   const emailInputRef = useRef();
+  const { showNotification } = useContext(NotificationContext);
+
   function registrationHandler(event) {
     event.preventDefault();
     const enteredEmail = emailInputRef.current.value;
+
+    showNotification({
+      title: "Signing up... ",
+      message: "Registering for newsletter.",
+      status: "pending",
+    });
+
+    // promise链式调用如何根据后端返回的状态码来处理正常/异常情况
     fetch("/api/newsletter", {
       method: "POST",
       body: JSON.stringify({ email: enteredEmail }),
@@ -13,8 +24,29 @@ function NewsletterRegistration() {
         "Content-Type": "application/json",
       },
     })
-      .then((response) => response.json())
-      .then((data) => console.log(data));
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        // 不抛出异常就会一直走then方法。默认一切正常
+        return response.json().then((data) => {
+          throw new Error(data.message || "Something went wrong !");
+        });
+      })
+      .then((data) => {
+        showNotification({
+          title: "Success!",
+          message: "Successfully registered for newsletter! ",
+          status: "success",
+        });
+      })
+      .catch((error) =>
+        showNotification({
+          title: "Error! ",
+          message: error.message || "Something went wrong !",
+          status: "error",
+        })
+      );
   }
 
   return (
