@@ -1,7 +1,5 @@
 import Head from "next/head"; // 修改部分原head标签里的信息
-import EventList from "../components/events/event-list";
 import { getFeaturedEvents } from "../helpers/api-util";
-import NewsletterRegistration from "../components/input/newsletter-registration";
 // 初始主页面
 export default function Home({ featuredEvents }) {
   return (
@@ -13,8 +11,6 @@ export default function Home({ featuredEvents }) {
         {/* 当你的页面出现在搜索引擎结果中时，content显示搜索结果中的文本 */}
         <meta name="description" content="sikara" />
       </Head>
-      <NewsletterRegistration />
-      <EventList items={featuredEvents} />
     </div>
   );
 }
