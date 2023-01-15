@@ -1,16 +1,30 @@
-import Head from "next/head"; // 修改部分原head标签里的信息
-import { getFeaturedEvents } from "../helpers/api-util";
-// 初始主页面
-export default function AllPostsPage({ featuredEvents }) {
-  return <div></div>;
+import Head from "next/head";
+
+import AllPosts from "../../components/posts/all-posts";
+import { getAllPosts } from "../../lib/posts-util";
+
+export default function AllPostsPage(props) {
+  return (
+    <>
+      <Head>
+        <title>All Posts</title>
+        <meta
+          name="description"
+          content="A list of all programming-related tutorials and posts!"
+        />
+      </Head>
+      <AllPosts posts={props.posts} />
+    </>
+  );
 }
 
 export async function getStaticProps() {
-  const featuredEvents = await getFeaturedEvents();
+  const allPosts = getAllPosts();
   return {
     props: {
-      featuredEvents,
+      posts: allPosts,
     },
-    revalidate: 1800, // 每半小时重新生成该页面
+    // 该revalidate属性是以秒为单位的量，之后可以重新生成页面（默认为false或不重新验证）
+    revalidate: 60, // 每半小时重新生成该页面
   };
 }
