@@ -1,6 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-export default function handler(req, res) {
+import { addContact } from "../../sql/db-util";
+
+export default async function handler(req, res) {
   if (req.method === "POST") {
     const { email, name, message } = req.body;
 
@@ -15,13 +17,20 @@ export default function handler(req, res) {
       res.status(422).json({ message: "Invalid input." });
       return;
     }
+
     //Store it in a database
     const newMessage = {
       email,
       name,
       message,
     };
-    console.log(newMessage);
+    try {
+      const result = await addContact(newMessage);
+      newMessage.id = result.insertedId;
+    } catch (error) {
+      res.status(500).json({ message: "Storing message failed!" });
+      return;
+    }
     res
       .status(201)
       .json({ message: "Successfully stored message ! ", message: newMessage });
