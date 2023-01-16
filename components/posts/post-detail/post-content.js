@@ -1,10 +1,19 @@
 import ReactMarkdown from "react-markdown";
 import Image from "next/image";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
-
+// 使用第三方库虽然开箱即用, 但是build后可能导致打包的文件过大, 不利于网站的运行;
+// import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+// import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
+// 解决方法  使用一些轻量化的库/看这个第三方库有无替代的轻量化方案
+import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
+import atomDark from "react-syntax-highlighter/dist/cjs/styles/prism/atom-dark";
+import js from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
+import css from "react-syntax-highlighter/dist/cjs/languages/prism/css";
 import PostHeader from "./post-header";
 import classes from "./post-content.module.css";
+
+// 对代码片段的支持语言进行声明
+SyntaxHighlighter.registerLanguage("js", js);
+SyntaxHighlighter.registerLanguage("css", css);
 
 function PostContent(props) {
   const { post } = props;

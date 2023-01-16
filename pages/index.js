@@ -15,7 +15,7 @@ export default function Home(props) {
   return (
     <>
       <Head>
-        <title>Sikara' Blog</title>
+        <title>Sikara&apos; Blog</title>
         <meta
           name="description"
           content="I post about programming and web development."

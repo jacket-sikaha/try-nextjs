@@ -1,8 +1,6 @@
 const { MongoClient } = require("mongodb");
 // 连接mongodb运行环境是nodejs
-const uri =
-  "mongodb+srv://<username>:<password>@<database>.duc0hkz.mongodb.net/?retryWrites=true&w=majority";
-
+const uri = `mongodb+srv://${process.env.mongodb_username}:${process.env.mongodb_password}@${process.env.mongodb_clustername}.duc0hkz.mongodb.net/?retryWrites=true&w=majority`;
 async function addContact(newContact) {
   const client = new MongoClient(uri);
   try {
