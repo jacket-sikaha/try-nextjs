@@ -1,9 +1,10 @@
-import Link from 'next/link';
-import { useSession, signOut } from 'next-auth/client';
+import Link from "next/link";
+import { useSession, signOut } from "next-auth/client";
 
-import classes from './main-navigation.module.css';
+import classes from "./main-navigation.module.css";
 
 function MainNavigation() {
+  // 使用useSession会发送一个请求/api/auth/session 以检查是否该会话cookie是否有效
   const [session, loading] = useSession();
 
   function logoutHandler() {
@@ -12,7 +13,7 @@ function MainNavigation() {
 
   return (
     <header className={classes.header}>
-      <Link href='/'>
+      <Link href="/">
         <a>
           <div className={classes.logo}>Next Auth</div>
         </a>
@@ -21,12 +22,12 @@ function MainNavigation() {
         <ul>
           {!session && !loading && (
             <li>
-              <Link href='/auth'>Login</Link>
+              <Link href="/auth">Login</Link>
             </li>
           )}
           {session && (
             <li>
-              <Link href='/profile'>Profile</Link>
+              <Link href="/profile">Profile</Link>
             </li>
           )}
           {session && (

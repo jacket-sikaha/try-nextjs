@@ -1,17 +1,18 @@
-import { getSession } from 'next-auth/client';
+import { getSession } from "next-auth/client";
 
-import { hashPassword, verifyPassword } from '../../../lib/auth';
-import { connectToDatabase } from '../../../lib/db';
+import { hashPassword, verifyPassword } from "../../../lib/auth";
+import { connectToDatabase } from "../../../lib/db";
 
 async function handler(req, res) {
-  if (req.method !== 'PATCH') {
+  if (req.method !== "PATCH") {
     return;
   }
 
+  // 检验我们请求里的一部分 是否能经过身份验证
   const session = await getSession({ req: req });
 
   if (!session) {
-    res.status(401).json({ message: 'Not authenticated!' });
+    res.status(401).json({ message: "Not authenticated!" });
     return;
   }
 
@@ -21,12 +22,12 @@ async function handler(req, res) {
 
   const client = await connectToDatabase();
 
-  const usersCollection = client.db().collection('users');
+  const usersCollection = client.db().collection("users");
 
   const user = await usersCollection.findOne({ email: userEmail });
 
   if (!user) {
-    res.status(404).json({ message: 'User not found.' });
+    res.status(404).json({ message: "User not found." });
     client.close();
     return;
   }
@@ -36,20 +37,22 @@ async function handler(req, res) {
   const passwordsAreEqual = await verifyPassword(oldPassword, currentPassword);
 
   if (!passwordsAreEqual) {
-    res.status(403).json({ message: 'Invalid password.' });
+    res.status(403).json({ message: "Invalid password." });
     client.close();
     return;
   }
 
   const hashedPassword = await hashPassword(newPassword);
 
+  // $set 匹配对象里的一个key 根据这个key来更新其属性 其他key的值不受影响
+  // 如果传入一个新key 则相当于添加一个新的键值对
   const result = await usersCollection.updateOne(
     { email: userEmail },
     { $set: { password: hashedPassword } }
   );
 
   client.close();
-  res.status(200).json({ message: 'Password updated!' });
+  res.status(200).json({ message: "Password updated!" });
 }
 
 export default handler;
