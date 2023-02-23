@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 
@@ -62,8 +62,15 @@ function AuthForm() {
     }
   }
 
+  // async function name(params) {
+  //   const a = await connectToDatabase();
+  //   console.log(a.db("nextjs_blog").collection("messages"));
+  //   a.close();
+  // }
+
   return (
     <section className={classes.auth}>
+      <button onClick={name}>www</button>
       <h1>{isLogin ? "Login" : "Sign Up"}</h1>
       <form onSubmit={submitHandler}>
         <div className={classes.control}>
